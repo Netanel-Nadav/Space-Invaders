@@ -3,6 +3,7 @@ import { createShots } from "../main.js";
 export class Player {
     constructor(canvasWidth, canvasHeight, ctx) {
         this.img = new Image()
+        
         this.img.src = '../style/imgs/ship.png'
         this.width = 50;
         this.height = 50;
@@ -19,7 +20,7 @@ export class Player {
 
 
     update(keys) {
-        if (this.img) {
+        if (this.img.src) {
             this.draw()
             if (keys.a.pressed) {
                 if (this.posX <= 0) return

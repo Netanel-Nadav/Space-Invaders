@@ -17,7 +17,7 @@ export class Enemy {
     }
 
     draw() {
-        if (this.img) {
+        if (this.img.src) {
             this.ctx.drawImage(this.img, this.posX, this.posY, 35, 35)
         }
     }
