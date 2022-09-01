@@ -19,17 +19,19 @@ export class Player {
 
 
     update(keys) {
-        this.draw()
-        if (keys.a.pressed) {
-            if (this.posX <= 0) return
-            this.posX -= this.speed
-        }
-        else if (keys.d.pressed) {
-            if (this.posX + this.width + 20 > this.canvasWidth) return
-            this.posX += this.speed
-        }
-        else if (keys.space.pressed) {
-            createShots(this.posX, this.posY)
+        if (this.img) {
+            this.draw()
+            if (keys.a.pressed) {
+                if (this.posX <= 0) return
+                this.posX -= this.speed
+            }
+            else if (keys.d.pressed) {
+                if (this.posX + this.width + 20 > this.canvasWidth) return
+                this.posX += this.speed
+            }
+            else if (keys.space.pressed) {
+                createShots(this.posX, this.posY)
+            }
         }
     }
 

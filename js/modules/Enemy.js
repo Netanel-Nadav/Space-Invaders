@@ -17,8 +17,8 @@ export class Enemy {
     }
 
     draw() {
-        this.ctx.drawImage(this.img, this.posX, this.posY, 35, 35)
-        // this.ctx.fillStyle = this.color
-        // this.ctx.fillRect(this.posX, this.posY, this.width, this.height)
+        if (this.img) {
+            this.ctx.drawImage(this.img, this.posX, this.posY, 35, 35)
+        }
     }
 }
