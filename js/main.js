@@ -1,16 +1,13 @@
-import { Enemy } from "./modules/Enemy.js";
 import { Grid } from "./modules/Grid.js";
 import { Player } from "./modules/Player.js";
 import { Shoot } from "./modules/Shoot.js";
 import { Star } from "./modules/Star.js";
+import { utilService } from "./utils.js";
 
 
 // GLOBALS
-const app = document.querySelector('.app')
-const modal = document.createElement('div')
-modal.classList.add('modal')
+const modal = document.querySelector('.modal')
 modal.classList.add('hidden')
-app.appendChild(modal)
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -21,6 +18,10 @@ const STARS_NUMBER = 30;
 canvas.width = CANVAS_WIDTH
 canvas.height = CANVAS_HEIGHT
 
+
+
+
+
 // SETUP
 let stars;
 let player;
@@ -28,34 +29,88 @@ let enemys;
 let shoots;
 let frames;
 let isGameOn;
+let randomSpwanTime = utilService.getRandomInt(300, 1000)
 
-
+const KEYS = {
+    a: {
+        pressed: false
+    },
+    d: {
+        pressed: false
+    },
+    space: {
+        pressed: false
+    },
+}
 
 
 function init() {
+    modal.classList.add('hidden')
     enemys = []
     shoots = []
     frames = 0
     isGameOn = true
     stars = createStarBackground()
     player = new Player(CANVAS_WIDTH, CANVAS_HEIGHT, ctx)
-    document.body.addEventListener('keydown', (ev) => {
-        player.update(ev)
-
-    })
+    document.body.addEventListener('keydown', checkMovment)
+    document.body.addEventListener('keyup', checkStopMovment)
     animate()
 }
 
+function checkStopMovment({ key }) {
+    switch (key) {
+        case 'a':
+            KEYS.a.pressed = false
+            break;
 
-function checkWin(){
-    const div = document.createElement('div')
-    div.classList.add('container')
-    div.innerHTML = `
-    <h1>You Won!</h1>
-    <button class="btn start-game" onclick="init()">Play again!</button>
-    `
+        case 'd':
+            KEYS.d.pressed = false
+            break;
+
+        case ' ':
+            KEYS.space.pressed = false
+            break;
+
+        default:
+            break;
+    }
+}
+
+
+function checkMovment({ key }) {
+    switch (key) {
+        case "a":
+            KEYS.a.pressed = true
+            break;
+        case "d":
+            KEYS.d.pressed = true
+            break;
+        case " ":
+            KEYS.space.pressed = true
+            break;
+
+        default:
+            break;
+    }
+}
+
+function checkWin(state) {
+    document.body.removeEventListener('keydown', checkMovment)
+    document.body.removeEventListener('keyup', checkStopMovment)
     modal.classList.remove('hidden')
-    modal.appendChild(div)
+    document.querySelector('.start-game').addEventListener('click', init)
+    switch (state) {
+        case 'lose':
+            document.querySelector('.title').innerText = 'YOU LOSE!'
+            break;
+            case 'win':
+            document.querySelector('.title').innerText = 'YOU WON!'
+            break;
+
+        default:
+            break;
+    }
+
 }
 
 function createStarBackground() {
@@ -86,9 +141,7 @@ function animate() {
 
 
         // Player Render
-        player.update()
-        player.draw()
-
+        player.update(KEYS)
 
         // Shoots Render
         shoots.forEach((shoot, idx) => {
@@ -112,7 +165,7 @@ function animate() {
                 if (!enemyGrid.invaders.length) {
                     enemys.splice(i, 1)
                     if (!enemys.length) {
-                        checkWin()
+                        checkWin('win')
                         isGameOn = false
                     }
                 }
@@ -121,7 +174,8 @@ function animate() {
         })
 
         // Enemys Render
-        if (frames % 500 === 0) {
+        if (frames % randomSpwanTime === 0) {
+            randomSpwanTime = utilService.getRandomInt(300, 1000)
             enemys.push(new Grid(ctx, CANVAS_WIDTH, CANVAS_HEIGHT))
         }
         enemys.forEach(grid => {
@@ -131,11 +185,11 @@ function animate() {
                 invader.draw()
                 if (invader.posY + invader.height >= CANVAS_HEIGHT) {
                     isGameOn = false
+                    checkWin('lose')
                 }
 
             })
         })
-
         frames++
         requestAnimationFrame(animate)
     }

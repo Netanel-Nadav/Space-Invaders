@@ -11,42 +11,29 @@ export class Player {
         this.ctx = ctx;
         this.posX = (this.canvasWidth * 0.5) - (this.width / 2)
         this.posY = this.canvasHeight - this.height
-        this.speed = 25;
+        this.speed = 15;
         this.color = '#fff'
     }
 
-    update(ev) {
-        if (!ev) return
-        switch (ev.key) {
-            case "d":
-                if (this.posX + this.width + 20 > this.canvasWidth) return
-                this.posX += this.speed
-                break;
-            case "D":
-                if (this.posX + this.width + 20 > this.canvasWidth) return
-                this.posX += this.speed
-                break;
-            case "a":
-                if (this.posX <= 0) return
-                else this.posX -= this.speed
-                break;
-            case "A":
-                if (this.posX - this.width < 0) return
-                this.posX -= this.speed
-                break;
-            case " ":
-                createShots(this.posX, this.posY)
-                break;
 
-            default:
-                break;
+
+
+    update(keys) {
+        this.draw()
+        if (keys.a.pressed) {
+            if (this.posX <= 0) return
+            this.posX -= this.speed
+        }
+        else if (keys.d.pressed) {
+            if (this.posX + this.width + 20 > this.canvasWidth) return
+            this.posX += this.speed
+        }
+        else if (keys.space.pressed) {
+            createShots(this.posX, this.posY)
         }
     }
 
     draw() {
         this.ctx.drawImage(this.img, this.posX - 10, this.posY - 30, 70, 70)
-
-        // this.ctx.fillStyle = this.color
-        // this.ctx.fillRect(this.posX, this.posY, this.width, this.height)
     }
 }
