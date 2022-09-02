@@ -3,8 +3,8 @@ import { createShots } from "../main.js";
 export class Player {
     constructor(canvasWidth, canvasHeight, ctx) {
         this.img = new Image()
-        
-        this.img.src = '../../style/imgs/ship.png'
+
+        this.img.src = 'Space-Invaders/style/imgs/ship.png'
         this.width = 50;
         this.height = 50;
         this.canvasWidth = canvasWidth;
@@ -20,19 +20,17 @@ export class Player {
 
 
     update(keys) {
-        if (this.img.src) {
-            this.draw()
-            if (keys.a.pressed) {
-                if (this.posX <= 0) return
-                this.posX -= this.speed
-            }
-            else if (keys.d.pressed) {
-                if (this.posX + this.width + 20 > this.canvasWidth) return
-                this.posX += this.speed
-            }
-            else if (keys.space.pressed) {
-                createShots(this.posX, this.posY)
-            }
+        this.draw()
+        if (keys.a.pressed) {
+            if (this.posX <= 0) return
+            this.posX -= this.speed
+        }
+        else if (keys.d.pressed) {
+            if (this.posX + this.width + 20 > this.canvasWidth) return
+            this.posX += this.speed
+        }
+        else if (keys.space.pressed) {
+            createShots(this.posX, this.posY)
         }
     }
 

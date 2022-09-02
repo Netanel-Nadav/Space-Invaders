@@ -1,7 +1,7 @@
 export class Enemy {
     constructor(ctx, posX, posY) {
         this.img = new Image()
-        this.img.src = '../../style/imgs/enemy.png'
+        this.img.src = 'Space-Invaders/style/imgs/enemy.png'
         this.ctx = ctx;
         this.posX = posX
         this.posY = posY
@@ -17,8 +17,6 @@ export class Enemy {
     }
 
     draw() {
-        if (this.img.src) {
-            this.ctx.drawImage(this.img, this.posX, this.posY, 35, 35)
-        }
+        this.ctx.drawImage(this.img, this.posX, this.posY, 35, 35)
     }
 }
