@@ -54,6 +54,8 @@ function init() {
     player = new Player(CANVAS_WIDTH, CANVAS_HEIGHT, ctx)
     document.body.addEventListener('keydown', checkMovment)
     document.body.addEventListener('keyup', checkStopMovment)
+    document.body.addEventListener('touchstart', touchStartCheckingMovment)
+    document.body.addEventListener('touchend', touchEndCheckingMovment)
     animate()
 }
 
@@ -91,6 +93,22 @@ function checkMovment({ key }) {
 
         default:
             break;
+    }
+}
+
+function touchStartCheckingMovment({changedTouches}) {
+    if (changedTouches[0].clientX < player.posX) {
+        KEYS.a.pressed = true
+    }
+    if (changedTouches[0].clientX > player.posX) {
+        KEYS.d.pressed = true
+    }
+}
+
+function touchEndCheckingMovment({type}) {
+    if (type === 'touchend') {
+        KEYS.a.pressed = false
+        KEYS.d.pressed = false
     }
 }
 
