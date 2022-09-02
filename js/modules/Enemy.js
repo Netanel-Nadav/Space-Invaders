@@ -1,7 +1,7 @@
 export class Enemy {
     constructor(ctx, posX, posY) {
         this.img = new Image()
-        this.img.src = 'Space-Invaders/style/imgs/enemy.png'
+        this.img.src = '/style/imgs/enemy.png'
         this.ctx = ctx;
         this.posX = posX
         this.posY = posY
