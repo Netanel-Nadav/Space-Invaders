@@ -18,6 +18,7 @@ export class Enemy {
 
     draw() {
         if (this.img.src) {
+            console.log(this.img.src);
             this.ctx.drawImage(this.img, this.posX, this.posY, 35, 35)
         }
     }
