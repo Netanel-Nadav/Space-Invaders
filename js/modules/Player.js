@@ -4,7 +4,7 @@ export class Player {
     constructor(canvasWidth, canvasHeight, ctx) {
         this.img = new Image()
         
-        this.img.src = 'style/imgs/ship.png'
+        this.img.src = '../style/imgs/ship.png'
         this.width = 50;
         this.height = 50;
         this.canvasWidth = canvasWidth;
